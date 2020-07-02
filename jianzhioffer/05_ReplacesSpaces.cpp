@@ -13,9 +13,9 @@ public:
         for (int i = 0; i < s.length(); i++) 
         {
             if (s[i] == ' ')
-                res += "%20";
+                res.append("%20");
             else
-                res += s[i];
+                res.append(1, s[i]);
         }
         return res;
     }
