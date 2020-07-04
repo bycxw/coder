@@ -5,15 +5,17 @@ from collections import deque
 from math import sqrt
 class Solution:
     def fib(self, n: int) -> int:
+        """recursion formula"""
         MOD = 1000000007
         if n < 2:
             return n
         cache = deque([0, 1], maxlen=2)
-        for i in range(2, n + 1):
+        for _ in range(2, n + 1):
             cache.append((cache[0] + cache[1]) % MOD)
         return cache[1]
 
     def fib2(self, n: int) -> int:
+        """matrix diagonalization, precision problem"""
         MOD = 1000000007
         if n < 2:
             return n
