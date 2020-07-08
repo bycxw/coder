@@ -46,5 +46,43 @@ class Solution:
                 pivet_idx = partition(arr, left, right)
         return arr[:pivet_idx + 1]
 
+
+    def getLeastNumbers2(self, arr: List[int], k: int) -> List[int]:
+        """heap"""
+        if k <= 0:
+            return []
+        if len(arr) <= k:
+            return arr
+
+        def sink(heap):
+            idx = 0
+            next_idx = (idx << 1) + 1
+            while next_idx < len(heap):
+                next_idx = (idx << 1) + 1
+                if next_idx + 1 < len(heap) and heap[next_idx + 1] > heap[next_idx]:
+                    next_idx += 1
+                if heap[idx] < heap[next_idx]:
+                    heap[idx], heap[next_idx] = heap[next_idx], heap[idx]
+                    idx = next_idx
+                    next_idx = (idx << 1) + 1
+                else:
+                    break
+
+        def swim(heap):
+            idx = len(heap) - 1
+            next_idx = ((idx + 1) >> 1) - 1
+            while next_idx >= 0 and heap[idx] > heap[next_idx]:
+                heap[idx], heap[next_idx] = heap[next_idx], heap[idx]
+                idx = next_idx
+                next_idx = ((idx + 1) >> 1) - 1
             
-            
+        heap = []
+        for num in arr:
+            if len(heap) < k:
+                heap.append(num)
+                swim(heap)
+            elif heap[0] > num:
+                heap[0] = num
+                sink(heap)
+        return heap
+
